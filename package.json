@@ -3,7 +3,7 @@
   "productName": "Finder",
   "version": "0.1.0-beta",
   "description": "A Tinder bot for Discord.",
-  "main": "index.js",
+  "main": "finder.js",
   "type": "module",
   "repository": {
     "type": "git",
