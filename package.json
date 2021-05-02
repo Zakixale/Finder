@@ -1,14 +1,22 @@
 {
   "name": "finder",
-  "version": "1.0.0",
-  "description": "",
+  "productName": "Finder",
+  "version": "0.1.0-beta",
+  "description": "A Tinder bot for Discord.",
   "main": "index.js",
   "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Zakixale/Finder.git"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
-  "author": "",
+  "author": {
+    "name": "Zakixale",
+    "email": "zakixale@gmail.com"
+  },
   "license": "ISC",
   "dependencies": {
     "discord.js": "^12.5.3",
