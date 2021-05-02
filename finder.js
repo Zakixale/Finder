@@ -108,7 +108,7 @@ client.on('message', async (message) => {
                 return
             }
 
-            const alreadyHaveProfileMP = await Profile.find({user: message.author.id, server: message.guild.id}, 'id')
+            const alreadyHaveProfileMP = await Profile.find({user: message.author.id, server: message.guild.id}, 'id').lean()
             if(alreadyHaveProfileMP.length === 0){
                 message.reply(`Tu n'as pas encore créé ton profile !`)
                 return
@@ -149,7 +149,7 @@ client.on('message', async (message) => {
 
             profileChannelMP.send(modifyProfileEmbed).then(async (newMessage) => {
                 // Save it to the db
-                const saveProfileMP = await Profile.findOneAndUpdate({user: message.author.id, server: message.guild.id}, {description: commandContent, messageId: newMessage.id})
+                const saveProfileMP = await Profile.findOneAndUpdate({user: message.author.id, server: message.guild.id}, {description: commandContent, messageId: newMessage.id}).lean()
                 newMessage.react('♥️')
                 message.reply(`Ton profil a été modifié avec succès !`)
             }).catch((err) => {
@@ -297,7 +297,7 @@ client.on('messageReactionAdd', async (reaction, user) => {
         return
     }
 
-    const alreadyLiked = await Like.findOne({sender: userId, target:getMessageFromDb.user, server: serverId})
+    const alreadyLiked = await Like.findOne({sender: userId, target:getMessageFromDb.user, server: serverId}).lean()
 
     if(alreadyLiked !== null){
         console.log('User tried to like multiple times')
@@ -311,8 +311,8 @@ client.on('messageReactionAdd', async (reaction, user) => {
     reaction.users.remove(userId)
 
     // Test if there is a match
-    const testMatchOne = await Like.findOne({sender: getMessageFromDb.user, target: userId})
-    const testMatchTwo = await Like.findOne({sender: userId, target: getMessageFromDb.user})
+    const testMatchOne = await Like.findOne({sender: getMessageFromDb.user, target: userId}).lean()
+    const testMatchTwo = await Like.findOne({sender: userId, target: getMessageFromDb.user}).lean()
 
     // No match
     if(testMatchOne === null || testMatchTwo === null){
@@ -322,7 +322,7 @@ client.on('messageReactionAdd', async (reaction, user) => {
 
     // Match
     // Get the match channel from this server
-    const matchChannel = await ServerPreference.findOne({serverId: serverId}, 'matchChannelId')
+    const matchChannel = await ServerPreference.findOne({serverId: serverId}, 'matchChannelId').lean()
 
     if(matchChannel === null){
         console.log('Match channel unknown, the bot may crash.')
